@@ -1,0 +1,17 @@
+power_all<-read.csv2("household_power_consumption.txt",stringsAsFactors=FALSE)
+power_sub<-power_all[power_all$Date == "1/2/2007" | power_all$Date == "2/2/2007",]
+
+mydates<-as.Date(power_sub$Date,format="%d/%m/%Y")
+mytimes<-paste(mydates,power_sub$Time)
+
+power_sub$Date <- mydates
+power_sub$Time <- strptime(mytimes,format="%Y-%m-%d %H:%M:%S")
+
+plot(power_sub$Time,power_sub$Global_active_power
+     ,type="l"
+     ,xlab=""
+     ,ylab="Global Active Power (killowatts)")
+
+
+dev.copy(png,file="plot2.png",width=480,height=480)
+dev.off()
